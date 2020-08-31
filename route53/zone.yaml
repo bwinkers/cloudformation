@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates an Amazon Route 53 hosted zone
+Parameters:
+  ZoneName:
+    Type: String
+    Description: The DNS name of an Amazon Route 53 hosted zone e.g. izzup.com
+    AllowedPattern: (?!-)[a-zA-Z0-9-.]{1,63}(?<!-)
+    ConstraintDescription: Must be a valid DNS zone name.
+Resources:
+  DNS:
+    Type: AWS::Route53::HostedZone
+    DeletionPolicy: Retain
+    Properties:
+      HostedZoneConfig:
+        Comment: !Join ['', ['Hosted zone for ', !Ref 'ZoneName']]
+      Name: !Ref 'ZoneName'
+      HostedZoneTags:
+      - Key: environment
+        Value: production
